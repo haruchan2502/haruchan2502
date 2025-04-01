@@ -1,34 +1,29 @@
-<!-- あいさつ -->
-# Hi! :wave: Welcome to my GitHub! 😊
+name: GitHub-Profile-Summary-Cards
 
-<!-- プロフィール -->
-## Profile 📝
+on:
+  schedule: # execute every 24 hours
+    - cron: "* 15 * * *"
+  workflow_dispatch:
 
-- I'm a university students in Japan.
-- I’m currently learning ROS2 (Robt Operating System).
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: generate-github-profile-summary-cards
+    permissions:
+      contents: write
 
-
-<!-- Skills -->
-### Skills 🌱
-<img alt="my skills" src="https://skillicons.dev/icons?theme=dark&perline=7&i=windows,cpp,python,git,github,ubuntu,vscode,visualstudio,androidstudio,azure,matlab" />
-
-## Stats :chart_with_downwards_trend:
-<!--Profile Views-->
-<p align="lsft">
-  <a href="https://github.com/haruchan2502/haruchan2502/">
-    <img src="https://komarev.com/ghpvc/?username=haruchan2502" alt="haruchan2502" />
-  </a>
-<!--Followers-->
-  <a href="https://github.com/haruchan2502">
-    <img height="20" src="https://img.shields.io/github/followers/haruchan2502?label=follow&logo=github&style=flat" />
-  </a>
-</p>
-<!--Commit Status-->
-
-[![](https://raw.githubusercontent.com/haruchan2502/haruchan2502/main/profile-summary-card-output/react/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-[![](https://raw.githubusercontent.com/haruchan2502/haruchan2502/main/profile-summary-card-output/react/1-repos-per-language.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards) [![](https://raw.githubusercontent.com/haruchan2502/haruchan2502/main/profile-summary-card-output/react/2-most-commit-language.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-[![](https://raw.githubusercontent.com/haruchan2502/haruchan2502/main/profile-summary-card-output/react/3-stats.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards) [![](https://raw.githubusercontent.com/haruchan2502/haruchan2502/main/profile-summary-card-output/react/4-productive-time.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-
-<!--トロフィー-->
-## Trophy :trophy:
-![trophy](https://github-profile-trophy.vercel.app/?username=haruchan2502&theme=onestar)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vn7n24fzkq/github-profile-summary-cards@release
+        env: # default use ${{ secrets.SUMMARY_GITHUB_TOKEN }}, you should replace with your personal access token
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        with:
+          USERNAME: ${{ github.repository_owner }}
+          # BRANCH_NAME is optional, default to main, branch name to push cards
+          BRANCH_NAME: "main"
+          # UTC_OFFSET is optional, default to zero
+          UTC_OFFSET: 9
+          # EXCLUDE is an optional comma seperated list of languages to exclude, defaults to ""
+          EXCLUDE: ""
+          # AUTO_PUSH is optional, a boolean variable default to true, whether automatically push generated files to desired branch
+          AUTO_PUSH: true
